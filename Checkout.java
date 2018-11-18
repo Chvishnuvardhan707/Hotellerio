@@ -5,19 +5,20 @@
  */
 package hotellerio;
 
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
- * @author Vishnu Vardhan CH
+ * @author  Hemanth Eagle
  */
 public class Checkout extends javax.swing.JFrame {
 
@@ -26,6 +27,7 @@ public class Checkout extends javax.swing.JFrame {
      */
     public Checkout() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon2.png")));
     }
 
     /**
@@ -40,6 +42,29 @@ public class Checkout extends javax.swing.JFrame {
         calculate = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         cust_id_02 = new javax.swing.JTextField();
+        cust_id_err = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        room_rent = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        food_order = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        laundry_order = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        transport_order = new javax.swing.JTable();
+        room_tot_cost = new javax.swing.JLabel();
+        food_tot_cost = new javax.swing.JLabel();
+        laundry_tot_cost = new javax.swing.JLabel();
+        transport_tot_cost = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        Cash = new javax.swing.JRadioButton();
+        card = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +82,77 @@ public class Checkout extends javax.swing.JFrame {
                 cust_id_02ActionPerformed(evt);
             }
         });
+        cust_id_02.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cust_id_02KeyTyped(evt);
+            }
+        });
+
+        room_rent.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(room_rent);
+
+        food_order.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(food_order);
+
+        laundry_order.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(laundry_order);
+
+        transport_order.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(transport_order);
+
+        jLabel4.setText("Room rents are");
+
+        jLabel5.setText("Food bills are");
+
+        jLabel6.setText("Laundry costs are");
+
+        jLabel7.setText("Transport costs are");
+
+        jButton1.setText("Proceed To Payment");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Select Payment Method");
+
+        Cash.setText("Cash");
+        Cash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CashActionPerformed(evt);
+            }
+        });
+
+        card.setText("Card");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -65,86 +161,283 @@ public class Checkout extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(calculate))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(77, 77, 77)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(252, 252, 252)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(calculate)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(214, 214, 214)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(food_tot_cost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(room_tot_cost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(laundry_tot_cost, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(139, 139, 139))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(transport_tot_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(93, 93, 93)
+                                        .addComponent(jLabel8)
+                                        .addGap(45, 45, 45)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(card)
+                                            .addComponent(Cash))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(jLabel1)
-                        .addGap(55, 55, 55)
-                        .addComponent(cust_id_02, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(102, Short.MAX_VALUE))
+                        .addGap(259, 259, 259)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(159, 159, 159)
+                                .addComponent(jLabel1)
+                                .addGap(55, 55, 55)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cust_id_02, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cust_id_err, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(256, 256, 256)
+                                .addComponent(jLabel7)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(191, 191, 191))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cust_id_02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(72, 72, 72)
-                .addComponent(calculate)
-                .addGap(81, 81, 81))
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cust_id_02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addComponent(cust_id_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(calculate)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(room_tot_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(food_tot_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(laundry_tot_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(transport_tot_cost, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(Cash))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(card)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateActionPerformed
-        // TODO add your handling code here:
+        if(cust_id_02.getText().trim().isEmpty())
+        {
+            cust_id_err.setText("*This field is required");
+            cust_id_err.setForeground(Color.red);
+        }
+        else{
+            
         int num = Integer.valueOf(cust_id_02.getText());
         System.out.println(num);    
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/for_hotellerio";
-            String user = "root";
-            String pass = "1.414magiC";      
-            Connection con = DriverManager.getConnection(url,user,pass);    
-            String sql1 = "select c_name from customer_details where c_id=?";
+            Connection con = DBConnect.connect();
+            String sql99="select total_cost from payments where cust_id =?";
+                    PreparedStatement ps99=con.prepareStatement(sql99);
+                    ps99.setInt(1, num);
+                    ResultSet rs99 = ps99.executeQuery();
+                    if(!rs99.next()){
+                     
+                            String sql1 = "select cust_name from customer_details where cust_ID=?";
             PreparedStatement ps1=con.prepareStatement(sql1);
             ps1.setInt(1, num);
             ResultSet rs1=ps1.executeQuery();
             String c_name=new String();
-            while(rs1.next())
+            if(rs1.next())
             {
                 c_name=rs1.getString(1);
                 System.out.println(c_name);
-                
             }
-        String sql = "select name_of_order from order_breakfast where cust_id =?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, num);
-        ResultSet rs=ps.executeQuery();
-        String name_of_order=new String();
-            while(rs.next())
+            else
             {
-                name_of_order=rs.getString(1);
-                System.out.println(name_of_order);
-                
+                JOptionPane.showMessageDialog(null, "There is no customer with given ID.Please Enter details Again","Display Message",JOptionPane.INFORMATION_MESSAGE);
+                    cust_id_02.setText(""); 
             }
-            String sql2 = "select Total_price from order_breakfast where cust_id =?";
-        PreparedStatement ps2= con.prepareStatement(sql2);
-        ps2.setInt(1, num);
-        ResultSet rs2=ps2.executeQuery();
-float tparice=0;
-        while(rs2.next())
+            String sql2 = "Select * from room_details where cust_ID=?";
+            PreparedStatement ps2=con.prepareStatement(sql2);
+            ps2.setInt(1, num);
+            ResultSet rs2=ps2.executeQuery();
+            room_rent.setModel(DbUtils.resultSetToTableModel(rs2));
+            String sql3 = "Select * from order_food where cust_id=?";
+            PreparedStatement ps3=con.prepareStatement(sql3);
+            ps3.setInt(1, num);
+            ResultSet rs3=ps3.executeQuery();
+            food_order.setModel(DbUtils.resultSetToTableModel(rs3));
+            String sql4 = "Select * from order_laundry where cust_id=?";
+            PreparedStatement ps4=con.prepareStatement(sql4);
+            ps4.setInt(1, num);
+            ResultSet rs4=ps4.executeQuery();
+            laundry_order.setModel(DbUtils.resultSetToTableModel(rs4));
+            String sql5 = "Select * from transport_table where cust_ID=?";
+            PreparedStatement ps5=con.prepareStatement(sql5);
+            ps5.setInt(1, num);
+            ResultSet rs5=ps5.executeQuery();
+            transport_order.setModel(DbUtils.resultSetToTableModel(rs5));
+            String room = "Select cost_s,cost_db,cost_dp from room_details where cust_ID = ?";
+            PreparedStatement psr=con.prepareStatement(room);
+            psr.setInt(1, num);
+            ResultSet rsr=psr.executeQuery();
+            int arr[] = new int[3];
+            while(rsr.next())
             {
-                tparice=rs2.getFloat(1);
-                System.out.println(tparice);
-                
+                arr[0] = rsr.getInt(1);
+                arr[1] = rsr.getInt(2);
+                arr[2] = rsr.getInt(3);
             }
+            int sum = arr[0]+arr[1]+arr[2];
+            String tot = "the total room rent is " +sum+ "Rs/-";
+            room_tot_cost.setText(tot);
+            String food = "select total_price from order_food where cust_id = ?";
+             PreparedStatement psf=con.prepareStatement(food);
+             psf.setInt(1, num);
+             ResultSet rsf=psf.executeQuery();
+             ArrayList<Float> li = new ArrayList();//<Float>;
+             while(rsf.next())
+             {
+                 li.add(rsf.getFloat(1));
+             }
+            float sum1 = 0;
+            for(int i=0;i<li.size();i++)
+            {
+                sum1 = sum1+li.get(i);
+            }String f = "total cost for food is "+sum1+ "Rs/-";
+            food_tot_cost.setText(f);
+            String sqll= "select total_price from order_laundry where cust_id=?";
+            PreparedStatement psl=con.prepareStatement(sqll);
+            psl.setInt(1, num);
+            ResultSet rsl=psl.executeQuery();
+            ArrayList<Float> ls = new ArrayList();
+            while(rsl.next())
+            {
+                ls.add(rsl.getFloat(1));
+            }
+            float sum2=0;
+            for(int i=0;i<ls.size();i++)
+            {
+                sum2=sum2+ls.get(i);
+            }String l="Total cost for Laundry is "+sum2+ "Rs/-";
+            laundry_tot_cost.setText(l);
+            String sqlt = "select price from transport_table where cust_Id = ?";
+             PreparedStatement pst=con.prepareStatement(sqlt);
+            pst.setInt(1, num);
+            ResultSet rst=pst.executeQuery();
+            int cost = 0;
+            while(rst.next())
+            {
+                cost = rst.getInt(1);
+                String t = "Total cost for transport booking is "+cost+" Rs/-";
+                transport_tot_cost.setText(t);
+            }
+            float tot_cost = sum + sum1 + sum2 + cost;
+            String finalcost = "the toal cost for your Expenditure in Munni Hotel is "+tot_cost+" Rs/-";
+            jLabel3.setText(finalcost);
+            String cas = Cash.getText();
+            String car = card.getText();
+            String cars = cas+car;
+            Insert_Data(num,cars,sum,sum1,sum2,cost,tot_cost);
             
-            
-        
+               
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "this customer has already been checked out .Please enter valid Customer ID", "Display Message", JOptionPane.INFORMATION_MESSAGE);
+                    }
         } catch (Exception e) {
             System.out.println(e);
         }
-            
+        }
         
     }//GEN-LAST:event_calculateActionPerformed
 
     private void cust_id_02ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cust_id_02ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cust_id_02ActionPerformed
+
+    private void cust_id_02KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cust_id_02KeyTyped
+         char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) ||(c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_DELETE))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_cust_id_02KeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(cust_id_02.getText().trim().isEmpty())
+        {
+            cust_id_err.setText("*This feild is required");
+            cust_id_err.setForeground(Color.red);
+        }else{
+        this.setVisible(false);
+        int cust = Integer.valueOf(cust_id_02.getText());
+        new Generate_Bill(cust).setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void CashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CashActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CashActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,8 +475,53 @@ float tparice=0;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton Cash;
     private javax.swing.JButton calculate;
+    private javax.swing.JRadioButton card;
     private javax.swing.JTextField cust_id_02;
+    private javax.swing.JLabel cust_id_err;
+    private javax.swing.JTable food_order;
+    private javax.swing.JLabel food_tot_cost;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable laundry_order;
+    private javax.swing.JLabel laundry_tot_cost;
+    private javax.swing.JTable room_rent;
+    private javax.swing.JLabel room_tot_cost;
+    private javax.swing.JTable transport_order;
+    private javax.swing.JLabel transport_tot_cost;
     // End of variables declaration//GEN-END:variables
+
+    private void Insert_Data(int num, String cars, int sum, float sum1, float sum2, int cost, float tot_cost) {
+        try {
+        Connection conn = DBConnect.connect();
+        String penta = "Insert into payments values(?,?,?,?,?,?,?,?)";
+        PreparedStatement pss = conn.prepareStatement(penta);
+        pss.setInt(1, num);
+        pss.setString(2, cars);
+        pss.setInt(3, sum);
+        pss.setFloat(4, sum1);
+        pss.setFloat(5, sum2);
+        pss.setInt(6, cost);
+        pss.setFloat(7, tot_cost);
+        pss.setString(8, "null");
+        pss.executeUpdate();
+        conn.close();
+        
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+                }
 }
