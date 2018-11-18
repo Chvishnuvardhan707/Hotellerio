@@ -5,18 +5,23 @@
  */
 package hotellerio;
 
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
 /**
  *
- * @author Vishnu Vardhan CH
+ * @author Praveen Chandanala
  */
 public class Order_Food extends javax.swing.JFrame {
 
@@ -25,6 +30,7 @@ public class Order_Food extends javax.swing.JFrame {
      */
     public Order_Food() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon2.png")));
     }
 
     /**
@@ -48,7 +54,12 @@ public class Order_Food extends javax.swing.JFrame {
         custid_03 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         order_Id = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        done = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cust_err = new javax.swing.JLabel();
+        orderid_err = new javax.swing.JLabel();
+        num_err = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
@@ -67,10 +78,21 @@ public class Order_Food extends javax.swing.JFrame {
 
         jLabel3.setText("Enter Number of Plates ");
 
-        place_order.setText("Order more");
+        place_order.setText("Place Order");
         place_order.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 place_orderActionPerformed(evt);
+            }
+        });
+
+        no_of_Plate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                no_of_PlateActionPerformed(evt);
+            }
+        });
+        no_of_Plate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                no_of_PlateKeyTyped(evt);
             }
         });
 
@@ -81,16 +103,42 @@ public class Order_Food extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Customer");
+        jLabel4.setText("Customer ID");
+
+        custid_03.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                custid_03ActionPerformed(evt);
+            }
+        });
+        custid_03.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                custid_03KeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Order Id");
 
-        jButton2.setText("Done");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        order_Id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                order_IdActionPerformed(evt);
             }
         });
+        order_Id.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                order_IdKeyTyped(evt);
+            }
+        });
+
+        done.setText("Done");
+        done.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doneActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hotellerio/images/baker.png"))); // NOI18N
+
+        jLabel7.setText("Your Food Is Being Cooked And Served In No Time...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,84 +147,145 @@ public class Order_Food extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel5))
-                                    .addComponent(jLabel1)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)))
-                        .addGap(62, 62, 62)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(no_of_Plate)
-                            .addComponent(mealtype_2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(custid_03, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(order_Id)))
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(cancel_04)
-                        .addGap(26, 26, 26)
-                        .addComponent(place_order)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                        .addGap(245, 245, 245)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(mealtype_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(order_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(8, 8, 8))
+                                .addComponent(custid_03, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(no_of_Plate, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(num_err, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(245, 245, 245)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(orderid_err, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cust_err, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(97, 97, 97))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addComponent(cancel_04)
+                .addGap(45, 45, 45)
+                .addComponent(place_order)
+                .addGap(67, 67, 67)
+                .addComponent(done)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(custid_03, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(mealtype_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(order_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(no_of_Plate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(custid_03, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cust_err, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(mealtype_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(order_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(orderid_err, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(no_of_Plate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel7)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(num_err, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(place_order)
                     .addComponent(cancel_04)
-                    .addComponent(jButton2))
-                .addGap(22, 22, 22))
+                    .addComponent(done))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void place_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_place_orderActionPerformed
         // TODO add your handling code here:
-         long millis=System.currentTimeMillis();
+        if(custid_03.getText().trim().isEmpty() && order_Id.getText().trim().isEmpty() && no_of_Plate.getText().trim().isEmpty())
+        {
+            cust_err.setText("*This field is required");
+            cust_err.setForeground(Color.red);
+            orderid_err.setText("*This field is required");
+            orderid_err.setForeground(Color.red);
+            num_err.setText("*This field is required");
+            num_err.setForeground(Color.red);
+        }
+        else if(custid_03.getText().trim().isEmpty())
+        {
+            cust_err.setText("*This field is required");
+            cust_err.setForeground(Color.red);
+            orderid_err.setText("");
+            num_err.setText("");
+        }
+        else if(order_Id.getText().trim().isEmpty())
+        {
+            cust_err.setText("");
+            orderid_err.setForeground(Color.red);
+            orderid_err.setText("*This field is required");
+            num_err.setText("");
+        }
+        else if(no_of_Plate.getText().trim().isEmpty())
+        {
+            cust_err.setText("");
+            num_err.setForeground(Color.red);
+            num_err.setText("*This field is required");
+            orderid_err.setText("");
+        }
+        else{
+            try {
+                Connection con=DBConnect.connect();
+            String sqlc="select cust_name from customer_details where cust_Id=?";
+            PreparedStatement psc=con.prepareStatement(sqlc);
+            psc.setInt(1,Integer.valueOf(custid_03.getText()));
+            ResultSet rsc=psc.executeQuery();
+            if(rsc.next())
+            {
+                long millis=System.currentTimeMillis();
     java.sql.Timestamp date1 ;
         date1 = new java.sql.Timestamp(millis);
         String str = (String)mealtype_2.getSelectedItem();
         String str1 = (String)order_Id.getText();
         int no_of_p=Integer.valueOf(no_of_Plate.getText());
-        if(str=="BreakFast"){try {
-                try 
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    String url = "jdbc:mysql://localhost:3306/hotellerio";
-                    String user = "root";
-                    String pass = "1.414magiC";
-                    Connection con = DriverManager.getConnection(url,user,pass);
+        Random rnd = new Random();
+        int order_id = rnd.nextInt(1000000);
+        if(str=="BreakFast")
+        {
+            try {
                     String sql2="select price from breakfast_menu where id=?";
                     PreparedStatement ps2 = con.prepareStatement(sql2);
                     ps2.setString(1,str1);
@@ -199,12 +308,13 @@ public class Order_Food extends javax.swing.JFrame {
                          name_of = rs3.getString(1);
                          System.out.println("name of qty is "+name_of);
                      }
-                    String sql1= "insert into order_breakfast values(?,?,?,?)";
+                    String sql1= "insert into order_food values(?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     ps.setInt(1,Integer.valueOf(custid_03.getText()));
                     ps.setString(2,name_of);
                     ps.setInt(3,Integer.valueOf(no_of_Plate.getText()));
                     ps.setFloat(4,t_price);
+                    ps.setInt(5, order_id);
                     ps.executeUpdate();
                     
                     } 
@@ -220,19 +330,10 @@ public class Order_Food extends javax.swing.JFrame {
             no_of_Plate.setText("");
        }
         } 
-        
-        if(str=="Lunch-Veg"){try {
-                try 
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    String url = "jdbc:mysql://localhost:3306/hotellerio";
-                    String user = "root";
-                    String pass = "1.414magiC";
-                    Connection con = DriverManager.getConnection(url,user,pass);
-                    String sql2="select price from lunch_menu where id1=?";
+       if(str=="Lunch-Veg")
+       {
+           try {
+               String sql2="select price from lunch_menu where id1=?";
                     PreparedStatement ps2 = con.prepareStatement(sql2);
                     ps2.setString(1,str1);
                     ResultSet rs2= ps2.executeQuery();
@@ -254,12 +355,13 @@ public class Order_Food extends javax.swing.JFrame {
                          name_of = rs3.getString(1);
                          System.out.println("name of qty is "+name_of);
                      }
-                    String sql1= "insert into order_lunch_veg values(?,?,?,?)";
+                    String sql1= "insert into order_food values(?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     ps.setInt(1,Integer.valueOf(custid_03.getText()));
                     ps.setString(2,name_of);
                     ps.setInt(3,Integer.valueOf(no_of_Plate.getText()));
                     ps.setFloat(4,t_price);
+                    ps.setInt(5, order_id);
                     ps.executeUpdate();
                     
                     } 
@@ -275,22 +377,8 @@ public class Order_Food extends javax.swing.JFrame {
             no_of_Plate.setText("");
        }
         }
-        
-        
-        //BreakFast, Lunch-Veg, Lunch-Non-Veg, Snacks, Dinner-Veg, Dinner-Non-Veg
-        
         if(str=="Lunch-Non-Veg"){try {
-                try 
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    String url = "jdbc:mysql://localhost:3306/hotellerio";
-                    String user = "root";
-                    String pass = "1.414magiC";
-                    Connection con = DriverManager.getConnection(url,user,pass);
-                    String sql2="select price from lunch_non_veg_menu where id2=?";
+               String sql2="select price from lunch_non_veg_menu where id2=?";
                     PreparedStatement ps2 = con.prepareStatement(sql2);
                     ps2.setString(1,str1);
                     ResultSet rs2= ps2.executeQuery();
@@ -312,14 +400,14 @@ public class Order_Food extends javax.swing.JFrame {
                          name_of = rs3.getString(1);
                          System.out.println("name of qty is "+name_of);
                      }
-                    String sql1= "insert into order_lunch_non_veg values(?,?,?,?)";
+                    String sql1= "insert into order_food values(?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     ps.setInt(1,Integer.valueOf(custid_03.getText()));
                     ps.setString(2,name_of);
                     ps.setInt(3,Integer.valueOf(no_of_Plate.getText()));
                     ps.setFloat(4,t_price);
+                    ps.setInt(5, order_id);
                     ps.executeUpdate();
-                    
                     } 
         
             catch (SQLException ex) 
@@ -333,19 +421,10 @@ public class Order_Food extends javax.swing.JFrame {
             no_of_Plate.setText("");
        }
         }
-        
-        
-        if(str=="Snacks"){try {
-                try 
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    String url = "jdbc:mysql://localhost:3306/hotellerio";
-                    String user = "root";
-                    String pass = "1.414magiC";
-                    Connection con = DriverManager.getConnection(url,user,pass);
+       if(str=="Snacks")
+       {
+           try {
+                
                     String sql2="select price from snacks_menu where id3=?";
                     PreparedStatement ps2 = con.prepareStatement(sql2);
                     ps2.setString(1,str1);
@@ -368,17 +447,16 @@ public class Order_Food extends javax.swing.JFrame {
                          name_of = rs3.getString(1);
                          System.out.println("name of qty is "+name_of);
                      }
-                    String sql1= "insert into order_snacks values(?,?,?,?)";
+                    String sql1= "insert into order_food values(?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     ps.setInt(1,Integer.valueOf(custid_03.getText()));
                     ps.setString(2,name_of);
                     ps.setInt(3,Integer.valueOf(no_of_Plate.getText()));
                     ps.setFloat(4,t_price);
+                    ps.setInt(5, order_id);
                     ps.executeUpdate();
-                    
                     } 
-        
-            catch (SQLException ex) 
+        catch (SQLException ex) 
             {
                 Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -389,22 +467,10 @@ public class Order_Food extends javax.swing.JFrame {
             no_of_Plate.setText("");
        }
         }
-        
-        
-        
-        
-        if(str=="Dinner-Veg"){try {
-                try 
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    String url = "jdbc:mysql://localhost:3306/hotellerio";
-                    String user = "root";
-                    String pass = "1.414magiC";
-                    Connection con = DriverManager.getConnection(url,user,pass);
-                    String sql2="select price from lunch_menu where id1=?";
+        if(str=="Dinner-Veg")
+        {
+            try {
+               String sql2="select price from lunch_menu where id1=?";
                     PreparedStatement ps2 = con.prepareStatement(sql2);
                     ps2.setString(1,str1);
                     ResultSet rs2= ps2.executeQuery();
@@ -426,14 +492,14 @@ public class Order_Food extends javax.swing.JFrame {
                          name_of = rs3.getString(1);
                          System.out.println("name of qty is "+name_of);
                      }
-                    String sql1= "insert into order_dinner_veg values(?,?,?,?)";
+                    String sql1= "insert into order_food values(?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     ps.setInt(1,Integer.valueOf(custid_03.getText()));
                     ps.setString(2,name_of);
                     ps.setInt(3,Integer.valueOf(no_of_Plate.getText()));
                     ps.setFloat(4,t_price);
+                    ps.setInt(5, order_id);
                     ps.executeUpdate();
-                    
                     } 
         
             catch (SQLException ex) 
@@ -447,20 +513,10 @@ public class Order_Food extends javax.swing.JFrame {
             no_of_Plate.setText("");
        }
         }
-        
-        
-        if(str=="Dinner-Non-Veg"){try {
-                try 
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Book_Food.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    String url = "jdbc:mysql://localhost:3306/hotellerio";
-                    String user = "root";
-                    String pass = "1.414magiC";
-                    Connection con = DriverManager.getConnection(url,user,pass);
-                    String sql2="select price from lunch_non_veg_menu where id2=?";
+       if(str=="Dinner-Non-Veg")
+       {
+           try {
+                String sql2="select price from lunch_non_veg_menu where id2=?";
                     PreparedStatement ps2 = con.prepareStatement(sql2);
                     ps2.setString(1,str1);
                     ResultSet rs2= ps2.executeQuery();
@@ -482,12 +538,13 @@ public class Order_Food extends javax.swing.JFrame {
                          name_of = rs3.getString(1);
                          System.out.println("name of qty is "+name_of);
                      }
-                    String sql1= "insert into order_dinner_non_veg values(?,?,?,?)";
+                    String sql1= "insert into order_food values(?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sql1);
                     ps.setInt(1,Integer.valueOf(custid_03.getText()));
                     ps.setString(2,name_of);
                     ps.setInt(3,Integer.valueOf(no_of_Plate.getText()));
                     ps.setFloat(4,t_price);
+                    ps.setInt(5, order_id);
                     ps.executeUpdate();
                     
                     } 
@@ -502,16 +559,25 @@ public class Order_Food extends javax.swing.JFrame {
             order_Id.setText("");
             no_of_Plate.setText("");
        }
+            }}
+            else{
+                JOptionPane.showMessageDialog(null, "There is no customer with given ID.Please Enter details Again","Display Message",JOptionPane.INFORMATION_MESSAGE);
+                    custid_03.setText("");
+                    order_Id.setText("");
+                    no_of_Plate.setText("");
+            }
+            
         }
-        
-        
-        
-        
-        
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e,"Display Message",JOptionPane.INFORMATION_MESSAGE);
+            }
+        } 
     }//GEN-LAST:event_place_orderActionPerformed
 
     private void cancel_04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_04ActionPerformed
 this.setVisible(false);
+new Food_Section().setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_cancel_04ActionPerformed
 
@@ -519,10 +585,48 @@ this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_mealtype_2ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void doneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doneActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        new Food_Section().setVisible(true);
+
+    }//GEN-LAST:event_doneActionPerformed
+
+    private void no_of_PlateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_no_of_PlateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_no_of_PlateActionPerformed
+
+    private void order_IdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_IdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_order_IdActionPerformed
+
+    private void custid_03KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_custid_03KeyTyped
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) ||(c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_DELETE))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_custid_03KeyTyped
+
+    private void custid_03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custid_03ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_custid_03ActionPerformed
+
+    private void order_IdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_order_IdKeyTyped
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) ||(c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_DELETE))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_order_IdKeyTyped
+
+    private void no_of_PlateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_no_of_PlateKeyTyped
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) ||(c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_DELETE))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_no_of_PlateKeyTyped
 
     /**
      * @param args the command line arguments
@@ -561,17 +665,22 @@ this.setVisible(false);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancel_04;
+    private javax.swing.JLabel cust_err;
     private javax.swing.JTextField custid_03;
+    private javax.swing.JButton done;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JComboBox<String> mealtype_2;
     private javax.swing.JTextField no_of_Plate;
+    private javax.swing.JLabel num_err;
     private javax.swing.JTextField order_Id;
+    private javax.swing.JLabel orderid_err;
     private javax.swing.JButton place_order;
     // End of variables declaration//GEN-END:variables
 }
