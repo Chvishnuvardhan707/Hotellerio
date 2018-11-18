@@ -5,6 +5,8 @@
  */
 package hotellerio;
 
+import java.awt.Color;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Vishnu Vardhan CH
+ * @author rithesh
  */
 public class EmployeeAuthentication extends javax.swing.JFrame {
 
@@ -22,6 +24,7 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
      */
     public EmployeeAuthentication() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon2.png")));
     }
 
     /**
@@ -41,6 +44,8 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
         reset_03 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         cancel_04 = new javax.swing.JButton();
+        usrname_err = new javax.swing.JLabel();
+        pswrd_err = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,7 +105,9 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
                         .addGap(59, 59, 59)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(username)
-                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))))
+                            .addComponent(password, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                            .addComponent(usrname_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pswrd_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -112,19 +119,24 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(usrname_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pswrd_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Login)
                     .addComponent(reset_03)
                     .addComponent(cancel_04))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
@@ -133,12 +145,33 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
 
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         // TODO add your handling code here:
+        if(username.getText().trim().isEmpty() && password.getText().trim().isEmpty())
+        {
+            usrname_err.setText("*username required");
+            usrname_err.setForeground(Color.red);
+            pswrd_err.setText("*Password required");
+            pswrd_err.setForeground(Color.red);
+
+        }
+         if(username.getText().trim().isEmpty())
+        {
+                       usrname_err.setText("*username required");
+                       usrname_err.setForeground(Color.red);
+                       pswrd_err.setText("");
+            pswrd_err.setForeground(Color.red);
+ 
+        }
+        else if(password.getText().trim().isEmpty())
+        {
+            pswrd_err.setText("*Password required");
+            pswrd_err.setForeground(Color.red);
+            usrname_err.setText("");
+                       usrname_err.setForeground(Color.red);
+            
+        }
+        else{
         try{
-                      Class.forName("com.mysql.jdbc.Driver");
-                        String url="jdbc:mysql://localhost:3306/hotellerio";
-			String user="root";
-			String pass="1.414magiC";
-	               Connection conn =DriverManager.getConnection(url,user,pass);
+	               Connection conn =DBConnect.connect();
                          String sql="select * from employee_login where username=? and password=?";
                        PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setString(1, String.valueOf(username.getText()));
@@ -147,18 +180,16 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
                         
                        if(rs.next()){
                        JOptionPane.showMessageDialog(null, "you can access to database","Display Message",JOptionPane.INFORMATION_MESSAGE);
-                       //System.out.prStringln(rs.getString(1)+" "+rs.getString(2));
                         }
                        else{
-                        //System.out.prStringln("access denied");  
-                        JOptionPane.showMessageDialog(null, "you are not authorised access the content","Display Message",JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Wrong credentials!!you are not authorised access the content","Display Message",JOptionPane.INFORMATION_MESSAGE);
 
                        }
 		
            }
        catch(Exception e) {
-           
-                      } 
+           JOptionPane.showMessageDialog(null, e);
+                      } }
     }//GEN-LAST:event_LoginActionPerformed
 
     private void reset_03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_03ActionPerformed
@@ -214,7 +245,9 @@ public class EmployeeAuthentication extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField password;
+    private javax.swing.JLabel pswrd_err;
     private javax.swing.JButton reset_03;
     private javax.swing.JTextField username;
+    private javax.swing.JLabel usrname_err;
     // End of variables declaration//GEN-END:variables
 }

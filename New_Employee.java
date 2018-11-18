@@ -5,16 +5,21 @@
  */
 package hotellerio;
 
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Vishnu Vardhan CH
+ * @author rithesh
  */
 public class New_Employee extends javax.swing.JFrame {
 
@@ -23,6 +28,7 @@ public class New_Employee extends javax.swing.JFrame {
      */
     public New_Employee() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("icon2.png")));
     }
 
     /**
@@ -48,11 +54,21 @@ public class New_Employee extends javax.swing.JFrame {
         password_n = new javax.swing.JPasswordField();
         conf_passwrd_n = new javax.swing.JPasswordField();
         name_n = new javax.swing.JTextField();
-        age_n = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         address_n = new javax.swing.JTextArea();
         phone_num_n = new javax.swing.JTextField();
         username_n = new javax.swing.JTextField();
+        name_err = new javax.swing.JLabel();
+        age_err = new javax.swing.JLabel();
+        addr_err = new javax.swing.JLabel();
+        phn_no_err = new javax.swing.JLabel();
+        username_err = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        pass_err = new javax.swing.JLabel();
+        cnfpass_err = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        date_age = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,91 +125,152 @@ public class New_Employee extends javax.swing.JFrame {
         address_n.setRows(5);
         jScrollPane1.setViewportView(address_n);
 
+        phone_num_n.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                phone_num_nKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hotellerio/images/employee_joining.png"))); // NOI18N
+
+        jLabel11.setText("Employees!! Hire Them Here...");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cancel_05)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(reset_05)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(admit_n))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(81, 81, 81)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(55, 55, 55)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(name_n, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(age_n, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(username_n, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                                        .addComponent(phone_num_n, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(password_n, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(conf_passwrd_n, javax.swing.GroupLayout.Alignment.LEADING))))
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 189, Short.MAX_VALUE)))
-                .addGap(90, 90, 90))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel1))
+                                        .addGap(106, 106, 106)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(name_err, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(name_n, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(date_age, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel5))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(2, 2, 2)
+                                                .addComponent(jLabel7)))
+                                        .addGap(45, 45, 45)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(username_n, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(phone_num_n, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(password_n, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jScrollPane1)
+                                            .addComponent(conf_passwrd_n, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(addr_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(phn_no_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(username_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(pass_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cnfpass_err, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(age_err, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(jLabel10))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(jLabel11))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 346, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cancel_05)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                                .addComponent(reset_05)
+                                .addGap(99, 99, 99)
+                                .addComponent(admit_n)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(name_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10)
                         .addGap(18, 18, 18)
-                        .addComponent(age_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel11))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(name_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(name_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(date_age, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(age_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addr_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(phone_num_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(phn_no_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(username_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(username_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(password_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pass_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(conf_passwrd_n, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(admit_n)
-                    .addComponent(reset_05)
-                    .addComponent(cancel_05))
-                .addGap(29, 29, 29))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(cnfpass_err, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(reset_05)
+                            .addComponent(cancel_05)
+                            .addComponent(admit_n))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void password_nActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password_nActionPerformed
@@ -207,55 +284,165 @@ public class New_Employee extends javax.swing.JFrame {
     private void cancel_05ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_05ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
+        new Employee_Section().setVisible(true);
     }//GEN-LAST:event_cancel_05ActionPerformed
 
     private void reset_05ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_05ActionPerformed
         // TODO add your handling code here:
         name_n.setText("");
-        age_n.setText("");
+        //age_n.setText("");
         address_n.setText("");
         phone_num_n.setText("");
         username_n.setText("");
         password_n.setText("");
         conf_passwrd_n.setText("");
+        name_err.setText("");
+        age_err.setText("");
+        addr_err.setText("");
+        phn_no_err.setText("");
+        username_err.setText("");
+        pass_err.setText("");
+        cnfpass_err.setText("");
     }//GEN-LAST:event_reset_05ActionPerformed
 
     private void admit_nActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admit_nActionPerformed
         // TODO add your handling code here:
+        String passw = String.valueOf(password_n.getPassword());
+        String con_pass = String.valueOf(conf_passwrd_n.getPassword());
+        
+        if(!passw.equals(con_pass))
+        {
+            pass_err.setText("*Passwords Do not match");
+            pass_err.setForeground(Color.red);
+            cnfpass_err.setText("*Passwords Do not match");
+            cnfpass_err.setForeground(Color.red);
+        }
+        if(name_n.getText().trim().isEmpty() && address_n.getText().trim().isEmpty() && phone_num_n.getText().trim().isEmpty() && username_n.getText().trim().isEmpty() && password_n.getText().trim().isEmpty() && conf_passwrd_n.getText().trim().isEmpty())
+        {
+            name_err.setText("*This field is required");
+            name_err.setForeground(Color.red);
+            age_err.setText("*This field is required");
+            age_err.setForeground(Color.red);
+            addr_err.setText("*This field is required");
+            addr_err.setForeground(Color.red);
+            phn_no_err.setText("*This field is required");
+            phn_no_err.setForeground(Color.red);
+            username_err.setText("*This field is required");
+            username_err.setForeground(Color.red);
+            pass_err.setText("*This field is required");
+            pass_err.setForeground(Color.red);
+            cnfpass_err.setText("*This field is required");
+            cnfpass_err.setForeground(Color.red);
+                                           
+        }
+        else if(name_n.getText().trim().isEmpty())
+        {
+            name_err.setText("*This field is required");
+            name_err.setForeground(Color.red);
+            age_err.setText("");
+            addr_err.setText("");
+            phn_no_err.setText("");
+            username_err.setText("");
+            pass_err.setText("");
+            cnfpass_err.setText("");
+        }
+        
+        else if(address_n.getText().trim().isEmpty())
+        {
+            name_err.setText("");
+            age_err.setText("");
+            addr_err.setText("*This field is required");
+            addr_err.setForeground(Color.red);
+            phn_no_err.setText("");
+            username_err.setText("");
+            pass_err.setText("");
+            cnfpass_err.setText("");
+        }
+        else if(phone_num_n.getText().trim().isEmpty())
+        {
+            name_err.setText("");
+            age_err.setText("");
+            addr_err.setText("");
+            phn_no_err.setText("*This field is required");
+            phn_no_err.setForeground(Color.red);
+            username_err.setText("");
+            pass_err.setText("");
+            cnfpass_err.setText("");
+        }
+        else if(username_n.getText().trim().isEmpty())
+        {
+            name_err.setText("");
+            age_err.setText("");
+            addr_err.setText("");
+            phn_no_err.setText("");
+            username_err.setText("*This field is required");
+            username_err.setForeground(Color.red);
+            pass_err.setText("");
+            cnfpass_err.setText("");
+        }
+        else if(password_n.getText().trim().isEmpty())
+        {
+            name_err.setText("");
+            age_err.setText("");
+            addr_err.setText("");
+            phn_no_err.setText("");
+            username_err.setText("");
+            pass_err.setText("*This field is required");
+            pass_err.setForeground(Color.red);
+            cnfpass_err.setText("");
+        }
+        else if(conf_passwrd_n.getText().trim().isEmpty())
+        {
+            name_err.setText("");
+            age_err.setText("");
+            addr_err.setText("");
+            phn_no_err.setText("");
+            username_err.setText("");
+            pass_err.setText("");
+            cnfpass_err.setText("*This field is required");
+            cnfpass_err.setForeground(Color.red);
+        }
+        else{
         int x = JOptionPane.YES_NO_OPTION;
-        int y = JOptionPane.showConfirmDialog(this, "Your Message", "Title on Box", x);
+        int y = JOptionPane.showConfirmDialog(this, "Confirm with above datails?", "Title on Box", x);
         if(y == 0) 
         {
-        //System.out.println("Yes option");
-try{
-    Random rn=new Random();
-    int rnn = rn.nextInt(1000000);
+            try{
+                        SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-DD");
+                        String str = df.format(date_age.getDate());
+                       Random rn=new Random();
+                        int rnn = rn.nextInt(1000000);
                       Class.forName("com.mysql.jdbc.Driver");
                         String url="jdbc:mysql://localhost:3306/hotellerio";
 			String user="root";
 			String pass="1.414magiC";
 	               Connection conn =DriverManager.getConnection(url,user,pass);
-                         String sql="insert into employee_details values(?,?,?,?,?,?,?)";
+                       String sql="INSERT into employee_details VALUES(?,?,?,?,?,?,?)";
                        PreparedStatement pst=conn.prepareStatement(sql);
                        pst.setInt(1,rnn);
 			pst.setString(2, String.valueOf(name_n.getText()));
-                        pst.setInt(3,Integer.valueOf(age_n.getText()));
+                        pst.setString(3, str);
                         pst.setString(4,String.valueOf(address_n.getText()));
                         pst.setDouble(5,Double.valueOf(phone_num_n.getText()));
                         pst.setString(6,String.valueOf(username_n.getText()));
 			pst.setString(7, String.valueOf(password_n.getPassword()));
-                        pst.executeUpdate(sql);
+                        pst.executeUpdate();
                         conn.close();
            }
-       catch(Exception e) {
+       catch(ClassNotFoundException | NumberFormatException | SQLException e) {
            System.out.println(e);
                       }        } 
-        else {
-         //New_Employee ap = new New_Employee();
-         //ap.setVisible(true);
-         
-        }       
+        else {}  
+        }     
     }//GEN-LAST:event_admit_nActionPerformed
+
+    private void phone_num_nKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_phone_num_nKeyTyped
+         char c = evt.getKeyChar();
+        if(!(Character.isDigit(c)) ||(c==KeyEvent.VK_BACK_SPACE) || (c==KeyEvent.VK_DELETE))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_phone_num_nKeyTyped
 
     /**
      * @param args the command line arguments
@@ -293,12 +480,17 @@ try{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addr_err;
     private javax.swing.JTextArea address_n;
     private javax.swing.JButton admit_n;
-    private javax.swing.JTextField age_n;
+    private javax.swing.JLabel age_err;
     private javax.swing.JButton cancel_05;
+    private javax.swing.JLabel cnfpass_err;
     private javax.swing.JPasswordField conf_passwrd_n;
+    private com.toedter.calendar.JDateChooser date_age;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -306,11 +498,16 @@ try{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel name_err;
     private javax.swing.JTextField name_n;
+    private javax.swing.JLabel pass_err;
     private javax.swing.JPasswordField password_n;
+    private javax.swing.JLabel phn_no_err;
     private javax.swing.JTextField phone_num_n;
     private javax.swing.JButton reset_05;
+    private javax.swing.JLabel username_err;
     private javax.swing.JTextField username_n;
     // End of variables declaration//GEN-END:variables
 }
